@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carol Lab — Laboratório de Diagnóstico Veterinário</title>
+  <meta name="description" content="Carol Lab é um laboratório de diagnóstico veterinário focado em precisão, velocidade, tecnologia e cuidado." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #F3F0E9;
+      --paper-2: #EDE9E1;
+      --ink: #10211F;
+      --muted: #5D6D69;
+      --primary: #0C4A44;
+      --primary-2: #083B36;
+      --accent: #BE5B32;
+      --line: rgba(16, 33, 31, 0.14);
+      --white: #FFFFFF;
+      --header-h: 76px;
+      --radius-lg: 2rem;
+      --radius-md: 1.5rem;
+      --shadow-lg: 0 30px 60px -30px rgba(16, 33, 31, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 3rem));
+      margin-inline: auto;
+    }
+
+    /* ---------- Reveal animation ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.65, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(243, 240, 233, 0.84);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-wrap {
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .logo-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 5px rgba(12, 74, 68, 0.14);
+    }
+
+    .desktop-nav {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #2A3D39;
+    }
+
+    .desktop-nav a {
+      transition: color 0.2s;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--primary);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      white-space: nowrap;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(243, 240, 233, 0.98);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+      z-index: 55;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      visibility: hidden;
+    }
+
+    .mobile-menu.open {
+      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .mobile-menu nav {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .mobile-menu nav a {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .mobile-menu .btn {
+      align-self: flex-start;
+      margin-top: 1rem;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-radius: 999px;
+      padding: 0.9rem 1.6rem;
+      border: 1px solid transparent;
+      transition: all 0.25s cubic-bezier(0.2, 0.65, 0.2, 1);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-2);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -16px rgba(12, 74, 68, 0.55);
+    }
+
+    .btn-light {
+      background: var(--paper);
+      color: var(--ink);
+      border-color: rgba(16, 33, 31, 0.12);
+    }
+
+    .btn-light:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--ink);
+      background: rgba(12, 74, 68, 0.05);
+    }
+
+    .btn-small {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    .text-link {
+      font-weight: 700;
+      color: var(--primary);
+      display: inline-flex;
+      gap: 0.4rem;
+      align-items: center;
+      border-bottom: 1px solid rgba(12, 74, 68, 0.25);
+      padding-bottom: 0.1rem;
+      transition: border-color 0.2s;
+    }
+
+    .text-link:hover {
+      border-color: var(--primary);
+    }
+
+    /* ---------- Sections ---------- */
+    .section {
+      padding: 7rem 0;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 4.5vw, 3.7rem);
+      letter-spacing: -0.05em;
+    }
+
+    .serif {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0;
+    }
+
+    .section-heading {
+      max-width: 800px;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-heading h2 {
+      margin-top: 1rem;
+    }
+
+    .section-heading > p:last-child {
+      margin-top: 1.25rem;
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 1.1rem;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      padding: 5.5rem 0 6rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -10%;
+      right: -15%;
+      width: 55vw;
+      height: 55vw;
+      border: 1px solid rgba(12, 74, 68, 0.15);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy .eyebrow {
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.2rem, 7vw, 6.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      max-width: 11ch;
+    }
+
+    .hero h1 .serif {
+      display: block;
+      color: var(--primary);
+      font-size: 0.82em;
+      margin-top: 0.08em;
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      max-width: 36rem;
+      font-size: 1.2rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      margin-top: 2.4rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust {
+      margin-top: 2.8rem;
+      display: flex;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+      color: #4A5D58;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero-trust span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero-trust span::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero-media {
+      position: relative;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      border-radius: 2rem 2rem 2rem 0.5rem;
+      box-shadow: var(--shadow-lg);
+      background: #d8d4cb;
+    }
+
+    .hero-media-caption {
+      position: absolute;
+      left: -1rem;
+      bottom: 1.5rem;
+      background: rgba(243, 240, 233, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(16, 33, 31, 0.12);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2.4s infinite;
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(190, 91, 50, 0.35);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(190, 91, 50, 0);
+      }
+    }
+
+    /* ---------- Differentiators ---------- */
+    .diff-heading {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 4rem;
+    }
+
+    .diff-heading .section-lead {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 46ch;
+    }
+
+    .diff-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .diff-item {
+      display: grid;
+      grid-template-columns: 80px 220px 1fr;
+      gap: 1.5rem;
+      padding: 2.4rem 1rem;
+      border-bottom: 1px solid var(--line);
+      transition: background 0.3s, padding-left 0.3s;
+      position: relative;
+    }
+
+    .diff-item:hover {
+      background: rgba(12, 74, 68, 0.04);
+      padding-left: 1.4rem;
+    }
+
+    .diff-index {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--primary);
+      position: relative;
+      top: 0.25rem;
+    }
+
+    .diff-item h3 {
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .diff-item p {
+      color: var(--muted);
+      max-width: 55ch;
+    }
+
+    /* ---------- Exams ---------- */
+    .exams {
+      background: var(--primary-2);
+      color: #fff;
+      border-radius: 3rem 3rem 0 0;
+    }
+
+    .exams .eyebrow {
+      color: #B9CCC7;
+    }
+
+    .exams .eyebrow::before {
+      background: #B9CCC7;
+    }
+
+    .exams .section-heading {
+      margin-bottom: 3rem;
+    }
+
+    .exam-feature {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .exam-feature-visual {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .exam-feature-visual::before {
+      content: "";
+      position: absolute;
+      inset: 15%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+    }
+
+    .exam-feature-code {
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.92);
+      letter-spacing: -0.05em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #B9CCC7;
+      font-weight: 700;
+    }
+
+    .exam-feature-content h3 {
+      font-size: 2.8rem;
+      margin: 0.6rem 0 1rem;
+    }
+
+    .exam-feature-content p {
+      color: #C7D6D2;
+      max-width: 46ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .exam-feature .text-link {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .exam-feature .text-link:hover {
+      border-color: #fff;
+    }
+
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .exam-grid li {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .exam-grid li:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-4px);
+    }
+
+    .exam-code {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      color: #B9CCC7;
+      font-weight: 700;
+    }
+
+    .exam-grid h4 {
+      font-size: 1.25rem;
+      margin: 0.5rem 0 0.6rem;
+    }
+
+    .exam-grid p {
+      color: #C7D6D2;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ---------- Process ---------- */
+    .process-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      position: relative;
+      counter-reset: step;
+    }
+
+    .process-list::before {
+      content: "";
+      position: absolute;
+      top: 32px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--line);
+      z-index: 0;
+    }
+
+    .process-item {
+      position: relative;
+      z-index: 1;
+      background: var(--paper);
+      padding-right: 1rem;
+    }
+
+    .process-number {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .process-item:hover .process-number {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .process-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .process-item p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    /* ---------- For Veterinarians ---------- */
+    .vet-section {
+      background: var(--paper-2);
+    }
+
+    .vet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .vet-image {
+      position: relative;
+    }
+
+    .vet-image img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      background: #d8d4cb;
+    }
+
+    .vet-image-tag {
+      position: absolute;
+      right: -1rem;
+      bottom: 2rem;
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 1.4rem;
+      border-radius: 1rem;
+      font-weight: 700;
+      max-width: 240px;
+      box-shadow: 0 20px 40px -20px rgba(12, 74, 68, 0.45);
+    }
+
+    .vet-content .eyebrow {
+      margin-bottom: 1.5rem;
+    }
+
+    .vet-content h2 {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .vet-content > p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .check-list {
+      margin-bottom: 2rem;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex: none;
+    }
+
+    /* ---------- About ---------- */
+    .about-intro h2 {
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      max-width: 12ch;
+      margin-top: 1rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.8fr;
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .about-copy p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      max-width: 60ch;
+    }
+
+    .about-metrics {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .metric-placeholder {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .metric-placeholder span {
+      font-weight: 700;
+    }
+
+    .metric-placeholder strong {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    /* ---------- Trust ---------- */
+    .trust {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 0;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .trust h2 {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+    }
+
+    .trust-note p {
+      color: #D7E4E0;
+      font-size: 1.15rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.4);
+      padding-left: 1.5rem;
+    }
+
+    /* ---------- Final CTA ---------- */
+    .final-cta {
+      background: var(--paper-2);
+      padding: 6rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .final-cta h2 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      letter-spacing: -0.06em;
+      max-width: 12ch;
+    }
+
+    .final-cta p {
+      margin: 1.5rem 0 2rem;
+      color: var(--muted);
+      font-size: 1.2rem;
+      max-width: 50ch;
+    }
+
+    /* ---------- Contact ---------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+    }
+
+    .contact-info h2 {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      margin: 1rem 0 2rem;
+    }
+
+    .contact-info dl {
+      display: grid;
+      gap: 1.4rem;
+    }
+
+    .contact-info dt {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .contact-info dd {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: 0.2rem;
+    }
+
+    .contact-info a {
+      color: var(--primary);
+      border-bottom: 1px solid rgba(12, 74, 68, 0.25);
+    }
+
+    .contact-form {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: 0 30px 80px -40px rgba(16, 33, 31, 0.25);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      font: inherit;
+      padding: 1rem 1.1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--line);
+      background: #FAF9F6;
+      color: var(--ink);
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(12, 74, 68, 0.08);
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .form-message {
+      min-height: 1em;
+      grid-column: 1 / -1;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding: 2rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .hero h1 {
+        max-width: 15ch;
+      }
+
+      .hero-media img {
+        height: 420px;
+      }
+
+      .diff-heading,
+      .vet-grid,
+      .about-grid,
+      .trust-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .exam-feature {
+        grid-template-columns: 1fr;
+      }
+
+      .exam-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .process-list {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .process-list::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .section {
+        padding: 5rem 0;
+      }
+
+      .desktop-nav,
+      .nav-cta {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.8rem, 11vw, 4rem);
+      }
+
+      .hero-media img {
+        height: 340px;
+      }
+
+      .hero-media-caption {
+        left: 0.8rem;
+        bottom: 0.8rem;
+      }
+
+      .diff-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .exam-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .exam-feature {
+        padding: 1.5rem;
+      }
+
+      .process-list {
+        grid-template-columns: 1fr;
+      }
+
+      .vet-image img {
+        height: 420px;
+      }
+
+      .vet-image-tag {
+        right: 0.8rem;
+        bottom: 0.8rem;
+      }
+
+      .contact-form {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#top" class="logo" aria-label="Carol Lab home">
+        <span class="logo-mark"></span>
+        <span class="logo-text">Carol Lab</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a href="#exams">Exames</a>
+        <a href="#how-it-works">Como Funciona</a>
+        <a href="#veterinarians">Para Veterinários</a>
+        <a href="#about">Sobre</a>
+        <a href="#contact">Contato</a>
+      </nav>
+
+      <a href="#contact" class="btn btn-primary btn-small nav-cta">Fale conosco</a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <nav aria-label="Navegação mobile">
+        <a href="#exams">Exames</a>
+        <a href="#how-it-works">Como Funciona</a>
+        <a href="#veterinarians">Para Veterinários</a>
+        <a href="#about">Sobre</a>
+        <a href="#contact">Contato</a>
+      </nav>
+      <a href="#contact" class="btn btn-primary">Fale conosco</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Laboratório de Diagnóstico Veterinário</p>
+          <h1>
+            Diagnóstico com <span class="serif">precisão</span> entregue com <span class="serif">cuidado</span>
+          </h1>
+          <p class="hero-sub">
+            O Carol Lab apoia veterinários e clínicas com exames laboratoriais confiáveis e impulsionados por tecnologia — da amostra ao laudo.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Solicitar exame <span>→</span></a>
+            <a href="#how-it-works" class="text-link">Ver como funciona</a>
+          </div>
+          <div class="hero-trust">
+            <span>Precisão</span>
+            <span>Velocidade</span>
+            <span>Tecnologia</span>
+            <span>Cuidado</span>
+          </div>
+        </div>
+
+        <div class="hero-media reveal">
+          <img
+            src="hero-lab-premium.webp"
+            alt="Microscópio de laboratório veterinário moderno"
+            fetchpriority="high"
+          />
+          <div class="hero-media-caption">
+            <span class="pulse-dot"></span>
+            Fluxo de trabalho do laboratório
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Differentiators -->
+    <section class="section" id="differentiators">
+      <div class="container">
+        <div class="diff-heading">
+          <div class="section-heading" style="margin-bottom:0;">
+            <p class="eyebrow">Por que Carol Lab</p>
+            <h2>Um laboratório desenhado para confiança clínica.</h2>
+          </div>
+          <p class="section-lead reveal">
+            Cada etapa do processo é estruturada para reduzir incertezas e apoiar decisões veterinárias mais rápidas e confiáveis.
+          </p>
+        </div>
+
+        <div class="diff-list">
+          <article class="diff-item reveal">
+            <div class="diff-index">01</div>
+            <h3>Precisão</h3>
+            <p>Protocolos padronizados e controle de qualidade rigoroso para minimizar variabilidade e apoiar interpretação clínica confiável.</p>
+          </article>
+          <article class="diff-item reveal">
+            <div class="diff-index">02</div>
+            <h3>Velocidade</h3>
+            <p>Prazos definidos que ajudam veterinários a ir da suspeita ao diagnóstico sem esperas desnecessárias.</p>
+          </article>
+          <article class="diff-item reveal">
+            <div class="diff-index">03</div>
+            <h3>Tecnologia</h3>
+            <p>Equipamentos modernos e processos digitais integrados à rotina clínica.</p>
+          </article>
+          <article class="diff-item reveal">
+            <div class="diff-index">04</div>
+            <h3>Cuidado</h3>
+            <p>Uma equipe comprometida em apoiar veterinários e os animais sob sua responsabilidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exams -->
+    <section class="section exams" id="exams">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Painel Diagnóstico</p>
+          <h2>Exames principais, resultados claros.</h2>
+          <p>Expertise técnica organizada nos exames laboratoriais veterinários mais importantes.</p>
+        </div>
+
+        <div class="exam-feature reveal">
+          <div class="exam-feature-visual">
+            <span class="exam-feature-code">HMG</span>
+          </div>
+          <div class="exam-feature-content">
+            <span class="exam-label">Exame em destaque</span>
+            <h3>Hemograma</h3>
+            <p>Contagem sanguínea completa para apoiar a avaliação de infecções, anemia e estados inflamatórios.</p>
+            <a href="#contact" class="text-link">Solicitar este exame</a>
+          </div>
+        </div>
+
+        <ul class="exam-grid">
+          <li class="reveal">
+            <span class="exam-code">BIO</span>
+            <h4>Bioquímica</h4>
+            <p>Painéis de química sérica para avaliar função orgânica e estado metabólico.</p>
+          </li>
+          <li class="reveal">
+            <span class="exam-code">HOR</span>
+            <h4>Hormônios</h4>
+            <p>Ensaios endócrinos para apoiar avaliações reprodutivas, tireoidianas e adrenais.</p>
+          </li>
+          <li class="reveal">
+            <span class="exam-code">URI</span>
+            <h4>Urianálise</h4>
+            <p>Análise física, química e microscópica da urina para avaliação renal e metabólica.</p>
+          </li>
+          <li class="reveal">
+            <span class="exam-code">CYT</span>
+            <h4>Citologia</h4>
+            <p>Avaliação microscópica de células de pele, linfonodos, derrames e outros tecidos.</p>
+          </li>
+          <li class="reveal">
+            <span class="exam-code">MIC</span>
+            <h4>Microbiologia</h4>
+            <p>Cultura e identificação de microrganismos clinicamente relevantes.</p>
+          </li>
+          <li class="reveal">
+            <span class="exam-code">MAIS</span>
+            <h4>Exames adicionais</h4>
+            <p>Converse com nossa equipe sobre necessidades diagnósticas específicas para sua rotina clínica.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Fluxo de Trabalho</p>
+          <h2>Da solicitação ao resultado.</h2>
+          <p>Um processo laboratorial claro desenhado para equipes veterinárias ocupadas.</p>
+        </div>
+
+        <ol class="process-list">
+          <li class="process-item reveal">
+            <div class="process-number">01</div>
+            <h3>Solicitação</h3>
+            <p>O veterinário solicita o exame através de nosso fluxo simples de solicitação digital ou por telefone.</p>
+          </li>
+          <li class="process-item reveal">
+            <div class="process-number">02</div>
+            <h3>Coleta da Amostra</h3>
+            <p>Amostras são coletadas, identificadas e enviadas ao laboratório seguindo diretrizes padronizadas de preservação.</p>
+          </li>
+          <li class="process-item reveal">
+            <div class="process-number">03</div>
+            <h3>Análise</h3>
+            <p>Nossa equipe técnica processa as amostras usando metodologias definidas e controles de qualidade.</p>
+          </li>
+          <li class="process-item reveal">
+            <div class="process-number">04</div>
+            <h3>Resultados</h3>
+            <p>Laudos claros são entregues online dentro do prazo informado.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- For Veterinarians -->
+    <section class="section vet-section" id="veterinarians">
+      <div class="container vet-grid">
+        <div class="vet-image reveal">
+          <img
+            src="https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=1200&q=80"
+            alt="Veterinário trabalhando com um cachorro"
+            loading="lazy"
+          />
+          <div class="vet-image-tag">
+            Parceria com clínicas e hospitais
+          </div>
+        </div>
+
+        <div class="vet-content reveal">
+          <p class="eyebrow">Para Veterinários</p>
+          <h2>Um parceiro diagnóstico para sua rotina clínica.</h2>
+          <p>
+            Ajudamos clínicas e hospitais veterinários a ir da suspeita clínica à confirmação laboratorial confiável. O Carol Lab apoia sua equipe com comunicação clara, laudos acessíveis e processos definidos.
+          </p>
+          <ul class="check-list">
+            <li>Solicitação de exames simples</li>
+            <li>Prazos de entrega definidos</li>
+            <li>Suporte técnico para interpretação</li>
+            <li>Acesso online aos laudos</li>
+            <li>Comunicação direta com o laboratório</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary">Falar com Carol Lab</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about-intro reveal">
+          <p class="eyebrow">Sobre o Carol Lab</p>
+          <h2>Ciência <span class="serif">+</span> Tecnologia <span class="serif">+</span> Cuidado</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <p>
+              O Carol Lab existe para conectar a medicina veterinária, a ciência laboratorial e a precisão operacional. Trabalhamos como uma extensão da equipe veterinária, apoiando decisões clínicas com processos técnicos rigorosos e laudos acessíveis.
+            </p>
+            <p>
+              Nosso fluxo de trabalho é construído em torno de uma ideia clara: resultados confiáveis devem ser simples de solicitar, simples de receber e simples de interpretar.
+            </p>
+          </div>
+
+          <div class="about-metrics reveal">
+            <div class="metric-placeholder">
+              <span>Precisão</span>
+              <strong>—</strong>
+            </div>
+            <div class="metric-placeholder">
+              <span>Velocidade</span>
+              <strong>—</strong>
+            </div>
+            <div class="metric-placeholder">
+              <span>Tecnologia</span>
+              <strong>—</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust / Credibility -->
+    <section class="section trust" id="trust">
+      <div class="container trust-grid">
+        <div class="reveal">
+          <p class="eyebrow" style="color:#B9CCC7;">Confiança e Credibilidade</p>
+          <h2>Construído para ser responsável.</h2>
+        </div>
+        <div class="trust-note reveal">
+          <p>
+            Certificações, parcerias institucionais e indicadores de qualidade serão publicados nesta área quando estiverem disponíveis.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <div class="container reveal">
+        <h2>Fale com o Carol Lab</h2>
+        <p>Tem alguma dúvida sobre exame, resultado ou parceria? Nossa equipe está pronta para ajudar.</p>
+        <a href="#contact" class="btn btn-primary">Abrir WhatsApp / Contato</a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-info reveal">
+          <p class="eyebrow">Contato</p>
+          <h2>Solicite um exame ou fale com nossa equipe.</h2>
+          <dl>
+            <div>
+              <dt>Email</dt>
+              <dd><a href="mailto:[EMAIL]">[EMAIL]</a></dd>
+            </div>
+            <div>
+              <dt>Telefone / WhatsApp</dt>
+              <dd><a href="tel:[PHONE]">[PHONE]</a></dd>
+            </div>
+            <div>
+              <dt>Endereço</dt>
+              <dd>[ENDEREÇO]</dd>
+            </div>
+          </dl>
+        </div>
+
+        <form class="contact-form reveal" id="contact-form" action="#" method="post">
+          <div class="field">
+            <label for="name">Nome</label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="phone">Telefone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="service">Tipo de solicitação</label>
+            <select id="service" name="service">
+              <option>Solicitação de exame</option>
+              <option>Parceria</option>
+              <option>Suporte técnico</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar solicitação</button>
+          <p class="form-message" id="form-message" role="status"></p>
+          <!-- Replace action above with your real form endpoint -->
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© <span id="year"></span> Carol Lab</p>
+      <p>Laboratório de Diagnóstico Veterinário</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!isOpen));
+      mobileMenu.classList.toggle('open', !isOpen);
+      document.body.style.overflow = !isOpen ? 'hidden' : '';
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Dynamic year
+    const year = document.getElementById('year');
+    if (year) {
+      year.textContent = new Date().getFullYear();
+    }
+
+    // Reveal animations
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      }
+    );
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+
+    // Form fallback — replace with your real endpoint/API
+    const contactForm = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      formMessage.textContent = 'Obrigado. Este formulário de demonstração precisa ser conectado ao seu backend ou endpoint de email.';
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
