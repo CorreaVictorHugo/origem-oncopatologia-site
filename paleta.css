@@ -1,0 +1,62 @@
+/* Fonte: paleta_de_cores_v3.txt. Branco sustenta as superfícies claras. */
+body:has(.nav-wrap) {
+  --brand: #04b49c;
+  --brand-light: #7dfcea;
+  --brand-blue: #043c6c;
+  --brand-slate: #94acc4;
+  --brand-soft: #97b4c4;
+  --paper: #fff;
+  --paper-2: #97b4c426;
+  --ink: #043c6c;
+  --muted: #043c6c;
+  --primary: #043c6c;
+  --primary-2: #043c6c;
+  --accent: #04b49c;
+  --line: #94acc480;
+}
+body:has(.nav-wrap) .site-header { background: #fffffff5; }
+body:has(.nav-wrap) .preview-notice { background: #7dfcea; color: #043c6c; }
+body:has(.nav-wrap) .exams { background: #043c6c; }
+body:has(.nav-wrap) .final-cta { background: #7dfcea; }
+body:has(.nav-wrap) .hero-trust { color: #043c6c; }
+.hero::before { border-color: #94acc480; }
+.btn-primary:hover { background: #04b49c; color: #043c6c; }
+.text-link { border-color: #94acc4; }
+.hero-media-caption { background: #fff; color: #043c6c; }
+.exams .section-heading p, .exams .portfolio-note, .exam-feature-content p,
+.exam-grid p, .exam-code, .exam-label { color: #7dfcea !important; }
+.exams .portfolio-note { border-color: #97b4c4; }
+.exam-feature, .exam-grid li { border-color: #94acc4; background: #94acc414; }
+.exam-feature-visual { background: #94acc426; }
+.exam-feature-visual::before { border-color: #97b4c4; }
+.exam-feature-code { color: #fff; }
+.vet-image-tag { background: #043c6c; color: #fff; }
+.contact-preparation { border-color: #94acc4; }
+.contact-status, .about-image figcaption { color: #043c6c; }
+.whatsapp-float { background: #04b49c; color: #043c6c; border-color: #043c6c; }
+.whatsapp-float:hover { background: #7dfcea; }
+a:focus-visible, button:focus-visible { outline-color: #043c6c; }
+::selection { background: #7dfcea; color: #043c6c; }
+.skip-link { background: #fff; color: #043c6c; }
+.about-grid { align-items: start; }
+.about-image { width: 100%; max-width: 480px; justify-self: end; }
+.about-image img { width: 100%; height: auto; max-height: none; object-fit: contain; }
+@media (max-width: 1000px) { .about-image { justify-self: start; } }
+
+/* Título e descrição ocupam duas colunas com espaço próprio. */
+.diff-item { grid-template-columns: minmax(220px, .7fr) minmax(0, 1.5fr); column-gap: clamp(32px, 5vw, 72px); align-items: start; }
+.diff-item h3, .diff-item p { min-width: 0; margin: 0; }
+.diff-item h3 { overflow-wrap: break-word; }
+.hero { background: linear-gradient(120deg, #fff 15%, #7dfcea30 100%); }
+#differentiators { background: #94acc418; }
+#about { background: #7dfcea20; }
+.exam-grid { margin-top: 0; gap: 24px; }
+.oncology-icon { width: 48px; height: 48px; display: grid; place-items: center; color: #7dfcea; background: #94acc426; border-radius: 12px; margin-bottom: 18px; }
+.exam-grid h4 { margin-top: 0; }
+@media (max-width: 700px) {
+  .diff-item { grid-template-columns: 1fr; row-gap: 16px; padding-inline: 0; }
+  .diff-item:hover { padding-left: 0; }
+}
+
+.developer-link { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.developer-link:hover { text-decoration-thickness: 2px; }
